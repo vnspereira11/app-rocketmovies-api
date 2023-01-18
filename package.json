@@ -1,0 +1,15 @@
+{
+  "name": "app-rocketmovies-api",
+  "version": "1.0.0",
+  "description": "Backend da aplicação RocketMovies, criada no Explorer - Programa de formação de desenvolvedores da Rocketseat.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Vanessa Pereira",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
