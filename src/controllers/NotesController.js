@@ -3,7 +3,7 @@ const knex = require("../database/knex");
 class NotesController {
     async create(request, response) {
         const { title, description, rating, tags } = request.body;
-        const { user_id } = request.params;
+        const user_id = request.user.id;
 
         const note_id = await knex("notes").insert({
             title,
@@ -22,7 +22,7 @@ class NotesController {
 
         await knex("tags").insert(tagsInsert);
 
-        response.json();
+        return response.json();
     }
 
     async show(request, response) {
@@ -47,17 +47,18 @@ class NotesController {
     }
 
     async index(request, response) {
-        const { title, user_id } = request.query;
+        const { title } = request.query;
+        const user_id = request.user.id;
 
         const notes = await knex("notes")           
             .where({ user_id })  
             .whereLike("title", `%${title}%`)              
             .orderBy("title")            
         
-        const tags = await knex("tags").where({ user_id });
+        const userTags = await knex("tags").where({ user_id });
 
         const notesWithTags = notes.map(note => {
-            const noteTags = tags.filter(tag => tag.note_id == note.id);
+            const noteTags = userTags.filter(tag => tag.note_id === note.id);
       
             return {
               ...note,
